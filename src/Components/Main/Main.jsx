@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './main.css';
 import img from '../../Assets/pexels-adem-albayrak-383796555-19197428.jpg';
 import img2 from '../../Assets/pexels-amanda-hemstreet-44398081-27731157.jpg';
@@ -13,6 +13,7 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 import { HiOutlineClipboardCheck } from "react-icons/hi";
 import Aos from 'aos' ;
 import 'aos/dist/aos.css';
+import axios from 'axios';
 
 
 const Data = [
@@ -100,10 +101,49 @@ const Data = [
 ]
 
 const Main = () => {
+  const [data,setData] = useState([{
+    id:1,
+    imgSrc:img ,
+    destTitle:"Bora Bora",
+    location:"New Zealand",
+    grade:"CULTURE RELAX",
+    fees:"$700",
+    description:"The epitome of romance, Bora Bora is one of the best travel destination in the world. This place is known for it's luxurious stays and adventurous activities."
+  },
+  {
+    id:2,
+    imgSrc:img2,
+    destTitle:"Machu Picchu",
+    location:"Peru",
+    grade:"CULTURE RELAX",
+    fees:"$600",
+    description:"Huayna Picchu is a mountain in peru, rising over Machu Picchu, the so-called Lost City of Incas. This place is popular amoung tourists as the sunrise from the sun Gate is simply spectacular."
+  },
+  {
+    id:3,
+    imgSrc:img3,
+    destTitle:"Great Barrier Reef",
+    location:"Australia",
+    grade:"CULTURE RELAX",
+    fees:"$700",
+    description:"One of the most remarkable Australian natural gifts is the great Barrier Reef. The hallmark of this place is 'lavish' and 'beauty'. Always interesting to be in this place."
+  }]);
+
+  const getMostVisit = async()=>{
+    try{
+      const fetched = await axios.get('http://127.0.0.1:5000/mostVisited');
+      const data = fetched.data.Data;
+      console.log(data);
+      setData(data);
+    }catch(error){
+      console.log(error);
+    }
+  }
 
   //Lets create a react hook to add a scroll animation
 
   useEffect(()=>{
+    getMostVisit();
     Aos.init({duration:2000})
   },[]);
 
@@ -116,7 +156,7 @@ const Main = () => {
       </div>
 
       <div className="secContent grid">
-       { Data.map(({id,imgSrc,destTitle,location,grade,fees,description}) => {
+       {data && data.map(({id,imgSrc,destTitle,location,grade,fees,description}) => {
           return (
             <div data-aos="fade-up" className="singleDestination" key={id}>
               <div className="imageDiv">

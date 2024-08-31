@@ -10,15 +10,17 @@ import { BsListTask } from "react-icons/bs";
 import { TbApps } from "react-icons/tb";
 import Aos from 'aos';
 import 'aos/dist/aos.css';
+import Main from '../Main/Main';
 
 const Home = () => {
   //Lets create a react hook to add a scroll animation
 
   useEffect(()=>{
-    Aos.init({duration:2000})
+    Aos.init({duration:1000})
   },[]);
 
   return (
+    <>
     <section className="home">
       <div className="overlay"></div>
       <video src={video} muted autoPlay loop type='video/mp4'></video>
@@ -82,6 +84,8 @@ const Home = () => {
 
       </div>
     </section>
+    <Main/> 
+    </>
   )
 }
 
